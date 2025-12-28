@@ -34,8 +34,8 @@ import { Settings } from './components/Settings';
 import { AdminDashboard } from './components/AdminDashboard';
 import { AdminUserList } from './components/AdminUserList';
 import { SubscriptionList } from './components/SubscriptionList';
-import { HelpCenter } from './components/HelpCenter';
-import { AllTickets } from './components/AllTickets';
+import HelpCenter from './pages/HelpCenter';
+import SupportTickets from './pages/admin/SupportTickets';
 
 import ProtectedRoute from './components/ProtectedRoute';
 import { useAuth } from './context/AuthContext';
@@ -123,7 +123,7 @@ const AppLayout: React.FC = () => {
       case 'help':
         return <HelpCenter />;
       case 'admin-tickets':
-        return <AllTickets />;
+        return <SupportTickets />;
       case 'admin-organizations':
         return <OrganizationsPage />;
       default:

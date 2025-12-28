@@ -1,5 +1,5 @@
 import React from 'react';
-import { Building2, Users, DollarSign, CreditCard, TrendingUp, TrendingDown } from 'lucide-react';
+import { Building2, Users, DollarSign, CreditCard, MessageCircle, TrendingUp, TrendingDown } from 'lucide-react';
 import { AdminMetricCard } from '../../components/admin/AdminMetricCard';
 import { AdminCard } from '../../components/admin/AdminCard';
 import { PlanBadge } from '../../components/admin/PlanBadge';
@@ -79,35 +79,33 @@ export const AdminDashboardPage: React.FC = () => {
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         <AdminMetricCard
-          title="Total Organizations"
-          value={stats?.totalOrganizations || 0}
-          change="+12% vs last month"
-          icon={Building2}
-          iconColor="bg-blue-500"
-          trend="up"
-        />
-        <AdminMetricCard
-          title="Total Users"
-          value={stats?.totalUsers || 0}
-          change="+8% vs last month"
-          icon={Users}
+          title="Monthly Recurring Revenue"
+          value={formatCurrency(stats?.mrr || 0)}
+          change="+15% vs last month"
+          icon={DollarSign}
           iconColor="bg-green-500"
           trend="up"
         />
         <AdminMetricCard
-          title="MRR"
-          value={formatCurrency(stats?.mrr || 0)}
-          change="+15% vs last month"
-          icon={DollarSign}
-          iconColor="bg-emerald-500"
-          trend="up"
+          title="Active Organizations"
+          value={stats?.activeSubscriptions || 0}
+          subtitle={`${stats?.trialOrganizations || 0} trials`}
+          icon={Building2}
+          iconColor="bg-blue-500"
         />
         <AdminMetricCard
-          title="Active Subscriptions"
-          value={stats?.activeSubscriptions || 0}
-          subtitle={`${stats?.trialOrganizations || 0} in trial`}
-          icon={CreditCard}
+          title="Total Users"
+          value={stats?.totalUsers || 0}
+          subtitle={`${stats?.newUsersThisMonth || 0} new this month`}
+          icon={Users}
           iconColor="bg-purple-500"
+        />
+        <AdminMetricCard
+          title="Open Support Tickets"
+          value={stats?.openTickets || 0}
+          subtitle={`${stats?.totalTickets || 0} total tickets`}
+          icon={MessageCircle}
+          iconColor="bg-orange-500"
         />
       </div>
 
