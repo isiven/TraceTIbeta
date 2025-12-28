@@ -12,7 +12,8 @@ import {
   X,
   LogOut,
   Bell,
-  Search
+  Search,
+  MessageSquare
 } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 
@@ -29,6 +30,7 @@ const navItems: NavItem[] = [
   { id: 'users', label: 'Users', icon: Users, path: '/admin/users' },
   { id: 'subscriptions', label: 'Subscriptions', icon: CreditCard, path: '/admin/subscriptions' },
   { id: 'analytics', label: 'Analytics', icon: BarChart3, path: '/admin/analytics' },
+  { id: 'tickets', label: 'Support Tickets', icon: MessageSquare, path: '/admin/tickets' },
   { id: 'settings', label: 'Platform Settings', icon: Settings, path: '/admin/settings' },
   { id: 'team', label: 'Admin Team', icon: Shield, path: '/admin/team' }
 ];

@@ -270,6 +270,7 @@ function App() {
               <Route path="users" element={<UsersPage />} />
               <Route path="subscriptions" element={<SubscriptionsPage />} />
               <Route path="analytics" element={<AnalyticsPage />} />
+              <Route path="tickets" element={<SupportTickets />} />
               <Route path="settings" element={<PlatformSettingsPage />} />
               <Route path="team" element={<AdminTeamPage />} />
             </Route>
