@@ -31,8 +31,6 @@ import { SupportContractList } from './components/SupportContractList';
 import { ClientList } from './components/ClientList';
 import { ClientDetail } from './components/ClientDetail';
 import { Settings } from './components/Settings';
-import { AdminDashboard } from './components/AdminDashboard';
-import { AdminUserList } from './components/AdminUserList';
 import { SubscriptionList } from './components/SubscriptionList';
 import HelpCenter from './pages/HelpCenter';
 import SupportTickets from './pages/admin/SupportTickets';
@@ -112,20 +110,12 @@ const AppLayout: React.FC = () => {
         return <Settings />;
       case 'team':
         return <TeamManagement />;
-      case 'admin-dashboard':
-        return <AdminDashboard />;
-      case 'admin-users':
-        return <AdminUserList />;
       case 'admin-subscriptions':
         return <SubscriptionList />;
       case 'super-admin':
         return <SuperAdminDashboard />;
       case 'help':
         return <HelpCenter />;
-      case 'admin-tickets':
-        return <SupportTickets />;
-      case 'admin-organizations':
-        return <OrganizationsPage />;
       default:
         return userRole === 'SUPER_ADMIN' ? <SuperAdminDashboard /> : <Dashboard userRole={userRole} setCurrentPage={setCurrentView} onNavigateToItem={handleNavigateToItem} />;
     }
