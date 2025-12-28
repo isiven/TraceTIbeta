@@ -34,6 +34,8 @@ import { Settings } from './components/Settings';
 import { AdminDashboard } from './components/AdminDashboard';
 import { AdminUserList } from './components/AdminUserList';
 import { SubscriptionList } from './components/SubscriptionList';
+import { HelpCenter } from './components/HelpCenter';
+import { AllTickets } from './components/AllTickets';
 
 import ProtectedRoute from './components/ProtectedRoute';
 import { useAuth } from './context/AuthContext';
@@ -118,6 +120,12 @@ const AppLayout: React.FC = () => {
         return <SubscriptionList />;
       case 'super-admin':
         return <SuperAdminDashboard />;
+      case 'help':
+        return <HelpCenter />;
+      case 'admin-tickets':
+        return <AllTickets />;
+      case 'admin-organizations':
+        return <OrganizationsPage />;
       default:
         return userRole === 'SUPER_ADMIN' ? <SuperAdminDashboard /> : <Dashboard userRole={userRole} setCurrentPage={setCurrentView} onNavigateToItem={handleNavigateToItem} />;
     }
@@ -137,6 +145,9 @@ const AppLayout: React.FC = () => {
       'admin-users': 'User Management',
       'admin-subscriptions': 'Subscriptions',
       'super-admin': 'Super Admin Dashboard',
+      'help': 'Help & Support',
+      'admin-tickets': 'All Support Tickets',
+      'admin-organizations': 'Organizations Management',
     };
     return titles[currentView] || 'TraceTI';
   };

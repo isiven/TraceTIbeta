@@ -1,5 +1,5 @@
 import React from 'react';
-import { LayoutDashboard, FileText, Users, Settings, LogOut, Radar, CreditCard, Shield, Server, ShieldCheck, Activity, Building2 } from 'lucide-react';
+import { LayoutDashboard, FileText, Users, Settings, LogOut, Radar, CreditCard, Shield, Server, ShieldCheck, Activity, Building2, HelpCircle, MessageSquare } from 'lucide-react';
 import { UserRole } from '../types';
 import { useData } from '../context/DataContext';
 
@@ -18,9 +18,11 @@ export const Sidebar: React.FC<SidebarProps> = ({ currentView, onChangeView, use
     if (userRole === 'SUPER_ADMIN') {
       return [
         { id: 'super-admin', label: 'Platform Dashboard', icon: Activity },
-        { id: 'admin-dashboard', label: 'Overview', icon: LayoutDashboard },
+        { id: 'admin-organizations', label: 'Organizations', icon: Building2 },
         { id: 'admin-users', label: 'User Management', icon: Users },
+        { id: 'admin-tickets', label: 'All Tickets', icon: MessageSquare },
         { id: 'admin-subscriptions', label: 'Subscriptions', icon: CreditCard },
+        { id: 'help', label: 'Help & Support', icon: HelpCircle },
         { id: 'settings', label: 'Settings', icon: Settings },
       ];
     }
@@ -43,6 +45,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ currentView, onChangeView, use
       items.push({ id: 'team', label: 'Team', icon: Users });
     }
 
+    items.push({ id: 'help', label: 'Help & Support', icon: HelpCircle });
     items.push({ id: 'settings', label: 'Settings', icon: Settings });
 
     return items;
