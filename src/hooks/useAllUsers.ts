@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { supabase } from '../lib/supabase';
+import { superAdminApi } from '../lib/superAdminApi';
 
 interface User {
   id: string;
@@ -13,9 +13,9 @@ interface User {
   last_login: string | null;
   organization_id: string;
   organization?: {
-    id: string;
+    id?: string;
     name: string;
-    account_type: string;
+    account_type?: string;
     subscription_plan: string;
   };
 }
@@ -29,17 +29,9 @@ export const useAllUsers = () => {
     try {
       setLoading(true);
 
-      const { data: usersData, error: usersError } = await supabase
-        .from('profiles')
-        .select(`
-          *,
-          organization:organizations(id, name, account_type, subscription_plan)
-        `)
-        .order('created_at', { ascending: false });
+      const result = await superAdminApi.listUsers({ limit: 1000 });
 
-      if (usersError) throw usersError;
-
-      setUsers(usersData || []);
+      setUsers(result.users || []);
     } catch (err) {
       console.error('Error fetching users:', err);
       setError(err instanceof Error ? err.message : 'Failed to fetch users');

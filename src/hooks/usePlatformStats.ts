@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { supabase } from '../lib/supabase';
+import { superAdminApi } from '../lib/superAdminApi';
 
 interface PlatformStats {
   totalOrganizations: number;
@@ -12,6 +12,11 @@ interface PlatformStats {
   activeSubscriptions: number;
   avgRevenuePerUser: number;
   churnRate: number;
+  mrrGrowth: number;
+  newUsersThisMonth: number;
+  totalTickets: number;
+  openTickets: number;
+  avgResponseTime: number;
 }
 
 export const usePlatformStats = () => {
@@ -24,30 +29,26 @@ export const usePlatformStats = () => {
       try {
         setLoading(true);
 
-        const { data: statsData, error: statsError } = await supabase
-          .from('platform_stats')
-          .select('*')
-          .single();
+        const metrics = await superAdminApi.getMetrics();
 
-        if (statsError) throw statsError;
-
-        const mrr = Number(statsData.mrr) || 0;
-        const arr = mrr * 12;
-        const avgRevenuePerUser = statsData.total_users > 0
-          ? mrr / statsData.total_users
-          : 0;
+        const arr = metrics.mrr * 12;
 
         setStats({
-          totalOrganizations: statsData.total_organizations || 0,
-          totalUsers: statsData.total_users || 0,
-          mrr,
+          totalOrganizations: metrics.totalOrganizations,
+          totalUsers: metrics.totalUsers,
+          mrr: metrics.mrr,
           arr,
-          paidOrganizations: statsData.paid_organizations || 0,
-          freeOrganizations: statsData.free_organizations || 0,
-          trialOrganizations: statsData.trial_organizations || 0,
-          activeSubscriptions: statsData.paid_organizations || 0,
-          avgRevenuePerUser,
-          churnRate: 2.1
+          paidOrganizations: metrics.activeOrganizations,
+          freeOrganizations: metrics.trialOrganizations,
+          trialOrganizations: metrics.trialOrganizations,
+          activeSubscriptions: metrics.activeOrganizations,
+          avgRevenuePerUser: metrics.arpu,
+          churnRate: metrics.churnRate,
+          mrrGrowth: metrics.mrrGrowth,
+          newUsersThisMonth: metrics.newUsersThisMonth,
+          totalTickets: metrics.totalTickets,
+          openTickets: metrics.openTickets,
+          avgResponseTime: metrics.avgResponseTime,
         });
       } catch (err) {
         console.error('Error fetching platform stats:', err);
