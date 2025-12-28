@@ -83,7 +83,7 @@ export const AdminDashboardPage: React.FC = () => {
           value={formatCurrency(stats?.mrr || 0)}
           change="+15% vs last month"
           icon={DollarSign}
-          iconColor="bg-green-500"
+          iconColor="bg-emerald-500"
           trend="up"
         />
         <AdminMetricCard
@@ -147,7 +147,7 @@ export const AdminDashboardPage: React.FC = () => {
             </div>
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-3">
-                <div className="w-3 h-3 rounded-full bg-green-500"></div>
+                <div className="w-3 h-3 rounded-full bg-emerald-500"></div>
                 <span className="text-sm font-medium">End Users</span>
               </div>
               <span className="text-lg font-bold">{accountTypeDistribution.end_user}</span>

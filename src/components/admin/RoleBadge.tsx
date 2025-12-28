@@ -21,7 +21,7 @@ export const RoleBadge: React.FC<RoleBadgeProps> = ({ role, className = '' }) =>
     manager: {
       label: 'Manager',
       icon: Users,
-      className: 'bg-green-100 text-green-700 border-green-200'
+      className: 'bg-emerald-100 text-emerald-700 border-emerald-200'
     },
     user: {
       label: 'User',

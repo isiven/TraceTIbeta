@@ -130,7 +130,7 @@ export const OrganizationsPage: React.FC = () => {
                           <Eye size={18} />
                         </button>
                         <button
-                          className="p-2 text-purple-600 hover:bg-purple-50 rounded-lg"
+                          className="p-2 text-slate-600 hover:bg-slate-50 rounded-lg"
                           title="Manage Subscription"
                         >
                           <CreditCard size={18} />

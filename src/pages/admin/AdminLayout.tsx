@@ -64,7 +64,7 @@ export const AdminLayout: React.FC = () => {
       >
         <div className="flex items-center justify-between px-6 py-5 border-b border-gray-800">
           <div className="flex items-center gap-3">
-            <div className="w-8 h-8 bg-gradient-to-br from-blue-500 to-purple-600 rounded-lg flex items-center justify-center">
+            <div className="w-8 h-8 bg-gradient-to-br from-blue-500 to-blue-600 rounded-lg flex items-center justify-center">
               <Shield size={20} />
             </div>
             <h1 className="text-xl font-bold">TraceTI Admin</h1>
@@ -87,8 +87,8 @@ export const AdminLayout: React.FC = () => {
                 onClick={() => handleNavigation(item.path)}
                 className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-colors ${
                   active
-                    ? 'bg-blue-600 text-white'
-                    : 'text-gray-300 hover:bg-gray-800 hover:text-white'
+                    ? 'bg-blue-500 text-white'
+                    : 'text-gray-300 hover:bg-blue-400/20 hover:text-white'
                 }`}
               >
                 <Icon size={20} />
