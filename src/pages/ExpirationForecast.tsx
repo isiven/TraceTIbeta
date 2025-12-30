@@ -1,8 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { Calendar, AlertTriangle, Plus } from 'lucide-react';
-import { useNavigate } from 'react-router-dom';
 import { supabase } from '../lib/supabase';
 import { useAuth } from '../context/AuthContext';
+
+interface ExpirationForecastProps {
+  onNavigateToPlan?: (planId: string) => void;
+}
 
 interface ForecastData {
   quarter: string;
@@ -11,9 +14,8 @@ interface ForecastData {
   contracts: { count: number; totalCost: number };
 }
 
-export default function ExpirationForecast() {
+export default function ExpirationForecast({ onNavigateToPlan }: ExpirationForecastProps = {}) {
   const { profile } = useAuth();
-  const navigate = useNavigate();
   const [forecastData, setForecastData] = useState<ForecastData[]>([]);
   const [loading, setLoading] = useState(true);
   const [creating, setCreating] = useState(false);
@@ -112,7 +114,9 @@ export default function ExpirationForecast() {
 
       if (error) throw error;
 
-      navigate(`/app/budgets/${data.id}`);
+      if (onNavigateToPlan) {
+        onNavigateToPlan(data.id);
+      }
     } catch (error) {
       console.error('Error creating budget:', error);
       alert('Failed to create budget plan. Please try again.');

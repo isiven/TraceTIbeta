@@ -1,8 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
 import { ArrowLeft, Plus, Pencil, Trash2, X, Sparkles } from 'lucide-react';
 import { supabase } from '../lib/supabase';
 import { useAuth } from '../context/AuthContext';
+
+interface BudgetPlanDetailProps {
+  budgetId: string;
+  onBack: () => void;
+}
 
 interface BudgetPlan {
   id: string;
@@ -39,9 +43,7 @@ interface Product {
   name: string;
 }
 
-export default function BudgetPlanDetail() {
-  const { id } = useParams<{ id: string }>();
-  const navigate = useNavigate();
+export default function BudgetPlanDetail({ budgetId, onBack }: BudgetPlanDetailProps) {
   const { profile } = useAuth();
   const [plan, setPlan] = useState<BudgetPlan | null>(null);
   const [items, setItems] = useState<BudgetItem[]>([]);
@@ -67,18 +69,18 @@ export default function BudgetPlanDetail() {
   });
 
   useEffect(() => {
-    if (profile?.organization_id && id) {
+    if (profile?.organization_id && budgetId) {
       fetchData();
     }
-  }, [profile, id]);
+  }, [profile, budgetId]);
 
   const fetchData = async () => {
     try {
       setLoading(true);
 
       const [planRes, itemsRes, vendorsRes, productsRes] = await Promise.all([
-        supabase.from('budget_plans').select('*').eq('id', id).single(),
-        supabase.from('budget_items').select(`*, vendor:vendors(name), product:products(name)`).eq('budget_plan_id', id).order('created_at', { ascending: false }),
+        supabase.from('budget_plans').select('*').eq('id', budgetId).single(),
+        supabase.from('budget_items').select(`*, vendor:vendors(name), product:products(name)`).eq('budget_plan_id', budgetId).order('created_at', { ascending: false }),
         supabase.from('vendors').select('id, name').eq('organization_id', profile!.organization_id).order('name'),
         supabase.from('products').select('id, name').eq('organization_id', profile!.organization_id).order('name')
       ]);
@@ -116,7 +118,7 @@ export default function BudgetPlanDetail() {
       for (const license of licensesRes.data || []) {
         if (license.renewal_cost && license.renewal_cost > 0) {
           newItems.push({
-            budget_plan_id: id,
+            budget_plan_id: budgetId,
             category: 'software',
             item_type: 'renewal',
             department: license.department,
@@ -135,7 +137,7 @@ export default function BudgetPlanDetail() {
         if (hardware.purchase_cost && hardware.purchase_cost > 0) {
           const estimatedCost = hardware.purchase_cost * 0.8;
           newItems.push({
-            budget_plan_id: id,
+            budget_plan_id: budgetId,
             category: 'hardware',
             item_type: 'replacement',
             department: hardware.department,
@@ -152,7 +154,7 @@ export default function BudgetPlanDetail() {
       for (const contract of contractsRes.data || []) {
         if (contract.annual_cost && contract.annual_cost > 0) {
           newItems.push({
-            budget_plan_id: id,
+            budget_plan_id: budgetId,
             category: 'service',
             item_type: 'renewal',
             department: contract.department,
@@ -236,7 +238,7 @@ export default function BudgetPlanDetail() {
         const { error } = await supabase.from('budget_items').update(itemData).eq('id', editingItem.id);
         if (error) throw error;
       } else {
-        const { error } = await supabase.from('budget_items').insert({ ...itemData, budget_plan_id: id });
+        const { error } = await supabase.from('budget_items').insert({ ...itemData, budget_plan_id: budgetId });
         if (error) throw error;
       }
 
@@ -285,7 +287,7 @@ export default function BudgetPlanDetail() {
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-4">
-          <button onClick={() => navigate('/app/budgets')} className="p-2 hover:bg-gray-100 rounded-lg">
+          <button onClick={onBack} className="p-2 hover:bg-gray-100 rounded-lg">
             <ArrowLeft size={20} />
           </button>
           <div>

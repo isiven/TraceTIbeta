@@ -1,8 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { DollarSign, Plus, Calendar, TrendingUp, X, FileText } from 'lucide-react';
-import { useNavigate } from 'react-router-dom';
 import { supabase } from '../lib/supabase';
 import { useAuth } from '../context/AuthContext';
+
+interface BudgetPlanningProps {
+  onNavigateToPlan?: (planId: string) => void;
+}
 
 interface BudgetPlan {
   id: string;
@@ -16,9 +19,8 @@ interface BudgetPlan {
   item_count?: number;
 }
 
-export default function BudgetPlanning() {
+export default function BudgetPlanning({ onNavigateToPlan }: BudgetPlanningProps = {}) {
   const { profile } = useAuth();
-  const navigate = useNavigate();
   const [budgetPlans, setBudgetPlans] = useState<BudgetPlan[]>([]);
   const [loading, setLoading] = useState(true);
   const [showModal, setShowModal] = useState(false);
@@ -102,7 +104,9 @@ export default function BudgetPlanning() {
       if (error) throw error;
 
       handleCloseModal();
-      navigate(`/app/budgets/${data.id}`);
+      if (onNavigateToPlan) {
+        onNavigateToPlan(data.id);
+      }
     } catch (error) {
       console.error('Error creating budget plan:', error);
       alert('Failed to create budget plan. Please try again.');
@@ -168,7 +172,7 @@ export default function BudgetPlanning() {
           {budgetPlans.map((plan) => (
             <div
               key={plan.id}
-              onClick={() => navigate(`/app/budgets/${plan.id}`)}
+              onClick={() => onNavigateToPlan && onNavigateToPlan(plan.id)}
               className="bg-white rounded-lg border border-gray-200 p-6 hover:shadow-lg transition-shadow cursor-pointer"
             >
               <div className="flex items-start justify-between mb-4">

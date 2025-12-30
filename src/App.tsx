@@ -61,6 +61,7 @@ const AppLayout: React.FC = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [actionItem, setActionItem] = useState<{ view: string; id: string } | null>(null);
   const [selectedClient, setSelectedClient] = useState<Client | null>(null);
+  const [selectedBudgetId, setSelectedBudgetId] = useState<string | null>(null);
 
   const userRole = traceTIUser?.role || 'INTEGRATOR';
 
@@ -95,6 +96,16 @@ const AppLayout: React.FC = () => {
     setCurrentView('clients');
   };
 
+  const handleNavigateToBudgetPlan = (budgetId: string) => {
+    setSelectedBudgetId(budgetId);
+    setCurrentView('budget-detail');
+  };
+
+  const handleBackFromBudgetDetail = () => {
+    setSelectedBudgetId(null);
+    setCurrentView('budgets');
+  };
+
   const renderContent = () => {
     switch (currentView) {
       case 'dashboard':
@@ -116,13 +127,17 @@ const AppLayout: React.FC = () => {
       case 'contacts':
         return <Contacts />;
       case 'budgets':
-        return <BudgetPlanning />;
+        return <BudgetPlanning onNavigateToPlan={handleNavigateToBudgetPlan} />;
       case 'budget-detail':
-        return <BudgetPlanDetail />;
+        return selectedBudgetId ? (
+          <BudgetPlanDetail budgetId={selectedBudgetId} onBack={handleBackFromBudgetDetail} />
+        ) : (
+          <BudgetPlanning onNavigateToPlan={handleNavigateToBudgetPlan} />
+        );
       case 'spend-analysis':
         return <SpendAnalysis />;
       case 'expiration-forecast':
-        return <ExpirationForecast />;
+        return <ExpirationForecast onNavigateToPlan={handleNavigateToBudgetPlan} />;
       case 'clients':
         return userRole === 'INTEGRATOR' ? <ClientList onSelectClient={handleSelectClient} /> : <Dashboard userRole={userRole} setCurrentPage={setCurrentView} onNavigateToItem={handleNavigateToItem} />;
       case 'client-detail':
@@ -273,29 +288,6 @@ function App() {
               element={
                 <ProtectedRoute>
                   <AppLayout />
-                </ProtectedRoute>
-              }
-            />
-            <Route
-              path="/app/budgets/:id"
-              element={
-                <ProtectedRoute>
-                  <div className="flex h-screen bg-bgGray overflow-hidden font-sans">
-                    <Sidebar
-                      currentView="budgets"
-                      onChangeView={(view) => window.location.href = '/app'}
-                      userRole="INTEGRATOR"
-                      onLogout={() => {}}
-                      isOpen={false}
-                    />
-                    <div className="flex-1 flex flex-col h-full overflow-hidden w-full">
-                      <main className="flex-1 overflow-y-auto p-4 md:p-8 bg-gray-50">
-                        <div className="max-w-[1440px] mx-auto">
-                          <BudgetPlanDetail />
-                        </div>
-                      </main>
-                    </div>
-                  </div>
                 </ProtectedRoute>
               }
             />
