@@ -35,6 +35,18 @@ import { SubscriptionList } from './components/SubscriptionList';
 import HelpCenter from './pages/HelpCenter';
 import SupportTickets from './pages/admin/SupportTickets';
 
+// Catalog Management Pages
+import Vendors from './pages/Vendors';
+import Providers from './pages/Providers';
+import Products from './pages/Products';
+import Contacts from './pages/Contacts';
+
+// Budget & Analysis Pages
+import BudgetPlanning from './pages/BudgetPlanning';
+import BudgetPlanDetail from './pages/BudgetPlanDetail';
+import SpendAnalysis from './pages/SpendAnalysis';
+import ExpirationForecast from './pages/ExpirationForecast';
+
 import ProtectedRoute from './components/ProtectedRoute';
 import { useAuth } from './context/AuthContext';
 import { useData } from './context/DataContext';
@@ -95,6 +107,22 @@ const AppLayout: React.FC = () => {
         return <HardwareList userRole={userRole} actionItem={actionItem} onActionComplete={() => setActionItem(null)} />;
       case 'support-contracts':
         return <SupportContractList userRole={userRole} actionItem={actionItem} onActionComplete={() => setActionItem(null)} />;
+      case 'vendors':
+        return <Vendors />;
+      case 'providers':
+        return <Providers />;
+      case 'products':
+        return <Products />;
+      case 'contacts':
+        return <Contacts />;
+      case 'budgets':
+        return <BudgetPlanning />;
+      case 'budget-detail':
+        return <BudgetPlanDetail />;
+      case 'spend-analysis':
+        return <SpendAnalysis />;
+      case 'expiration-forecast':
+        return <ExpirationForecast />;
       case 'clients':
         return userRole === 'INTEGRATOR' ? <ClientList onSelectClient={handleSelectClient} /> : <Dashboard userRole={userRole} setCurrentPage={setCurrentView} onNavigateToItem={handleNavigateToItem} />;
       case 'client-detail':
@@ -127,6 +155,14 @@ const AppLayout: React.FC = () => {
       licenses: 'License Management',
       hardware: 'Hardware Management',
       'support-contracts': 'Support Contracts',
+      vendors: 'Vendor Management',
+      providers: 'Provider Management',
+      products: 'Product Catalog',
+      contacts: 'Contact Management',
+      budgets: 'Budget Planning',
+      'budget-detail': 'Budget Plan Detail',
+      'spend-analysis': 'Spend Analysis',
+      'expiration-forecast': 'Expiration Forecast',
       clients: 'Client Management',
       'client-detail': selectedClient ? selectedClient.name : 'Client Details',
       team: 'Team Management',
@@ -237,6 +273,29 @@ function App() {
               element={
                 <ProtectedRoute>
                   <AppLayout />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/app/budgets/:id"
+              element={
+                <ProtectedRoute>
+                  <div className="flex h-screen bg-bgGray overflow-hidden font-sans">
+                    <Sidebar
+                      currentView="budgets"
+                      onChangeView={(view) => window.location.href = '/app'}
+                      userRole="INTEGRATOR"
+                      onLogout={() => {}}
+                      isOpen={false}
+                    />
+                    <div className="flex-1 flex flex-col h-full overflow-hidden w-full">
+                      <main className="flex-1 overflow-y-auto p-4 md:p-8 bg-gray-50">
+                        <div className="max-w-[1440px] mx-auto">
+                          <BudgetPlanDetail />
+                        </div>
+                      </main>
+                    </div>
+                  </div>
                 </ProtectedRoute>
               }
             />

@@ -1,5 +1,5 @@
 import React from 'react';
-import { LayoutDashboard, FileText, Users, Settings, LogOut, Radar, CreditCard, Shield, Server, ShieldCheck, Activity, Building2, HelpCircle, MessageSquare } from 'lucide-react';
+import { LayoutDashboard, FileText, Users, Settings, LogOut, Radar, CreditCard, Shield, Server, ShieldCheck, Activity, Building2, HelpCircle, MessageSquare, Truck, Package, DollarSign, TrendingUp, Calendar } from 'lucide-react';
 import { UserRole } from '../types';
 import { useData } from '../context/DataContext';
 
@@ -33,6 +33,13 @@ export const Sidebar: React.FC<SidebarProps> = ({ currentView, onChangeView, use
       { id: 'licenses', label: 'Licenses', icon: FileText },
       { id: 'hardware', label: 'Hardware', icon: Server },
       { id: 'support-contracts', label: 'Support Contracts', icon: ShieldCheck },
+      { id: 'vendors', label: 'Vendors', icon: Building2 },
+      { id: 'providers', label: 'Providers', icon: Truck },
+      { id: 'products', label: 'Products', icon: Package },
+      { id: 'contacts', label: 'Contacts', icon: Users },
+      { id: 'budgets', label: 'Budget Plans', icon: DollarSign },
+      { id: 'spend-analysis', label: 'Spend Analysis', icon: TrendingUp },
+      { id: 'expiration-forecast', label: 'Expiration Forecast', icon: Calendar },
     ];
 
     // Explicitly add Clients for Integrators
